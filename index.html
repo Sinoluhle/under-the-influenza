@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Under The Influenza</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="startup" class="startup-screen">
+      <div class="door-frame">
+        <div class="door-left"></div>
+        <div class="door-right"></div>
+        <div class="startup-logo-wrap">
+          <img src="assets/logo.svg" alt="Under The Influenza Logo" class="startup-logo" />
+        </div>
+      </div>
+    </div>
+
+    <div id="app" class="app hidden">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <img src="assets/logo.svg" alt="Under The Influenza" class="mini-logo" />
+          <div>
+            <p class="eyebrow">Podcast Company Platform</p>
+            <h1>Under The Influenza</h1>
+          </div>
+        </div>
+
+        <div class="user-panel">
+          <div id="userBadge" class="user-badge"></div>
+          <button id="logoutBtn" class="ghost-btn">Logout</button>
+        </div>
+      </header>
+
+      <div class="workspace">
+        <aside class="sidebar">
+          <nav>
+            <button class="nav-btn active" data-target="overview">Overview</button>
+            <button class="nav-btn" data-target="users">Users</button>
+            <button class="nav-btn" data-target="transactions">Transactions</button>
+            <button class="nav-btn" data-target="invoices">Invoices</button>
+            <button class="nav-btn" data-target="messages">Messages</button>
+            <button class="nav-btn" data-target="company">Company</button>
+          </nav>
+        </aside>
+
+        <main class="main-panel">
+          <section id="authScreen" class="screen active-screen">
+            <div class="auth-shell">
+              <div class="auth-visual">
+                <div class="visual-overlay"></div>
+                <div class="visual-content">
+                  <p class="eyebrow white">Podcast Operations and Finance</p>
+                  <h2>Welcome to the heartbeat of every episode.</h2>
+                  <p>
+                    Secure access for team members, podcast production, transactions, approvals,
+                    invoices, and company records.
+                  </p>
+                </div>
+              </div>
+
+              <div class="auth-panel">
+                <div class="auth-tabs">
+                  <button class="auth-toggle active" data-auth="login">Login</button>
+                  <button class="auth-toggle" data-auth="register">Create Profile</button>
+                </div>
+
+                <form id="loginForm" class="auth-form active-form">
+                  <h3>Sign in</h3>
+                  <label>
+                    Cellphone Number
+                    <input type="tel" id="loginPhone" placeholder="e.g. 0712345678" required />
+                  </label>
+                  <label>
+                    Password
+                    <input type="password" id="loginPassword" placeholder="Enter password" required />
+                  </label>
+                  <button type="submit" class="primary-btn">Login</button>
+                </form>
+
+                <form id="registerForm" class="auth-form">
+                  <h3>Create Your Profile</h3>
+
+                  <div class="two-col">
+                    <label>
+                      Full Name
+                      <input type="text" id="regName" placeholder="Full name" required />
+                    </label>
+                    <label>
+                      Surname
+                      <input type="text" id="regSurname" placeholder="Surname" required />
+                    </label>
+                  </div>
+
+                  <label>
+                    Cellphone Number
+                    <input type="tel" id="regPhone" placeholder="Cellphone number" required />
+                  </label>
+
+                  <label>
+                    Email
+                    <input type="email" id="regEmail" placeholder="Email address" required />
+                  </label>
+
+                  <label>
+                    Business Card / Profile Link
+                    <input type="text" id="regBusinessCard" placeholder="Business card URL or profile link" />
+                  </label>
+
+                  <label>
+                    Password
+                    <input type="password" id="regPassword" placeholder="Create password" required />
+                  </label>
+
+                  <div class="otp-box">
+                    <button type="button" id="sendOtpBtn" class="secondary-btn">Send OTP</button>
+                    <div id="otpStatus" class="otp-status">OTP not sent yet</div>
+                  </div>
+
+                  <label>
+                    Enter OTP
+                    <input type="text" id="regOtp" placeholder="Enter 6-digit OTP" maxlength="6" required />
+                  </label>
+
+                  <button type="submit" class="primary-btn">Create Profile</button>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <section id="dashboardScreen" class="screen">
+            <div class="welcome-banner">
+              <div>
+                <p class="eyebrow">Secure Workspace</p>
+                <h2>WELCOME TO UNDER THE INFLUENZA</h2>
+              </div>
+            </div>
+
+            <div class="stats-grid" id="statsGrid"></div>
+
+            <div class="content-grid">
+              <div class="card large-card" id="overviewPanel">
+                <div class="section-header">
+                  <h3>Company Overview</h3>
+                  <button class="tiny-btn" id="refreshDataBtn">Refresh</button>
+                </div>
+                <div id="overviewContent"></div>
+              </div>
+
+              <div class="card" id="alertsPanel">
+                <div class="section-header">
+                  <h3>Security Alerts</h3>
+                </div>
+                <div id="alertsList" class="list-stack"></div>
+              </div>
+            </div>
+
+            <div class="content-grid two-grid">
+              <div class="card" id="usersPanel">
+                <div class="section-header">
+                  <h3>Users</h3>
+                </div>
+                <div id="usersList" class="list-stack"></div>
+              </div>
+
+              <div class="card" id="messagesPanel">
+                <div class="section-header">
+                  <h3>Messages</h3>
+                </div>
+                <div id="messagesList" class="message-stack"></div>
+                <div class="message-composer">
+                  <input id="messageInput" type="text" placeholder="Message a user or the team" />
+                  <button id="sendMessageBtn" class="primary-btn small-btn">Send</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-grid two-grid">
+              <div class="card" id="transactionsPanel">
+                <div class="section-header">
+                  <h3>Transactions</h3>
+                </div>
+                <div id="transactionsList" class="table-wrap"></div>
+              </div>
+
+              <div class="card" id="invoicesPanel">
+                <div class="section-header">
+                  <h3>Invoices & Documents</h3>
+                </div>
+                <form id="invoiceForm" class="invoice-form">
+                  <input type="text" id="invoiceTitle" placeholder="Invoice or document title" required />
+                  <input type="file" id="invoiceFile" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx" />
+                  <button type="submit" class="primary-btn small-btn">Upload</button>
+                </form>
+                <div id="invoicesList" class="list-stack"></div>
+              </div>
+            </div>
+
+            <div class="content-grid two-grid">
+              <div class="card" id="companyPanel">
+                <div class="section-header">
+                  <h3>Business Account</h3>
+                </div>
+                <form id="bankAccountForm" class="bank-form">
+                  <label>
+                    Bank Name
+                    <input type="text" id="bankName" placeholder="Bank institution" />
+                  </label>
+                  <label>
+                    Account Number
+                    <input type="text" id="bankNumber" placeholder="Account number" />
+                  </label>
+                  <label>
+                    Account Holder
+                    <input type="text" id="bankHolder" placeholder="Holder name" />
+                  </label>
+                  <button type="submit" class="primary-btn small-btn">Link Business Account</button>
+                </form>
+                <div id="companyStatus" class="company-status"></div>
+              </div>
+
+              <div class="card" id="podcastPanel">
+                <div class="section-header">
+                  <h3>Podcast Pipeline</h3>
+                </div>
+                <div id="podcastStats" class="podcast-stats"></div>
+              </div>
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
