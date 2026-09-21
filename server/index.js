@@ -14,10 +14,12 @@ import { z } from 'zod';
 const root = process.cwd();
 const port = Number(process.env.PORT || 3000);
 const jwtSecret = process.env.JWT_SECRET || 'development-only-secret';
-const uploadDir = path.resolve(root, process.env.UPLOAD_DIR || 'storage/uploads');
+const storageDir = path.resolve(root, 'storage');
+const uploadDir = path.resolve(storageDir, process.env.UPLOAD_DIR || 'uploads');
+fs.mkdirSync(storageDir, { recursive: true });
 fs.mkdirSync(uploadDir, { recursive: true });
 
-const db = new Database(path.resolve(root, 'storage/uti.sqlite'));
+const db = new Database(path.resolve(storageDir, 'uti.sqlite'));
 db.pragma('journal_mode = WAL');
 db.pragma('foreign_keys = ON');
 db.exec(`
@@ -99,7 +101,6 @@ app.post('/api/auth/request-otp', rateLimit({ windowMs: 10 * 60 * 1000, limit: 5
   const code = String(crypto.randomInt(100000, 1000000));
   const created = now();
   db.prepare('INSERT INTO otps VALUES (?, ?, ?, ?, 0, ?)').run(id(), parsed.data.phone, hash(code), new Date(Date.now() + Number(process.env.OTP_TTL_MINUTES || 10) * 60000).toISOString(), created);
-  // Replace this development response with an SMS provider such as Twilio in production.
   res.json({ message: 'OTP issued', ...(process.env.NODE_ENV !== 'production' ? { developmentOtp: code } : {}) });
 });
 
